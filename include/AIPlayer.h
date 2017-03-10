@@ -14,11 +14,13 @@ class AIPlayer
 {
     // CTOR / DTOR //
 public:
-    AIPlayer(int strength);
+    AIPlayer(int strength) {}
 
     // Public Methods //
 public:
-    int decideMove(Board board);
-}
+    int decideMove(Board board) {
+        return 0;
+    }
+};
 
 NS_CORECONNECTA4_END

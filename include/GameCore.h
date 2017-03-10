@@ -1,12 +1,15 @@
-
 #pragma once
+//std
+#include <memory>
 //AmazingCow Libs
 #include "CoreCoord.h"
 #include "CoreGame.h"
 #include "CoreRandom.h"
 //CoreConnecta4
 #include "CoreConnecta4_Utils.h"
+#include "CoreConnecta4_Types.h"
 #include "AIPlayer.h"
+#include "Board.h"
 
 
 NS_CORECONNECTA4_BEGIN
@@ -20,19 +23,13 @@ public:
 
     // Enums / Constants / Typedefs //
 public:
-    enum class GameMode { SinglePlayer, Multiplayer }
-
-    static const int kPlayerInvalid;
-    static const int kPlayer1;
-    static const int kPlayer2;
-
-    typedef std::vector<std::vector<int>> Board;
-
+    enum class GameMode { SinglePlayer, Multiplayer };
 
     // CTOR / DTOR //
 public:
     GameCore(
         GameMode gameMode,
+        int      starterPlayer,
         int      boardWitdh,
         int      boardHeight,
         int      aiStrength,
@@ -41,7 +38,7 @@ public:
 
     // Public Methods //
 public:
-    CoreCoord::Coord makeMove(int row);
+    CoreCoord::Coord makeMove(int column);
     const Board& getBoard() const;
 
     int getAIMove() const;
@@ -49,23 +46,23 @@ public:
     int getTurnsCount() const;
 
     CoreGame::Status getStatus() const;
+
+    int getCurrentPlayer() const;
+    int getNextPlayer() const;
     int getWinner() const;
-
-
-    // Private Methods //
-private:
-    void checkStatus ();
-    void revertAIMove();
 
 
     // iVars //
 private:
-    Board            m_board;
-    int              m_turnsCount;
-    CoreGame::Status m_status;
-    int              m_winner;
+    GameMode m_mode;
+    Board    m_board;
+    int      m_turnsCount;
+    int      m_currentPlayer;
+    int      m_winnerPlayer;
 
     std::unique_ptr<AIPlayer> m_pAIPlayer;
+
+    CoreRandom::Random m_random;
 };
 
 NS_CORECONNECTA4_END
